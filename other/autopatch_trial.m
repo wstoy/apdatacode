@@ -215,7 +215,7 @@ classdef autopatch_trial < handle
             try
                 clampNames = at.([whichClamp 'clamp_rec_names']);
             catch
-                error('autopatch_trial::plotClamps: Variable whichClamp improperly set!')
+                error('autopatch_trial::plotClamps: No corresponding clamp found!')
             end
             
             for i = 1:length(clampNames)
