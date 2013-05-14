@@ -2,12 +2,7 @@ function [ recSegment ] = parse_whisker_stim_folder_file( whisker_folder_file )
 %parse_whisker_stim_folder_file Summary of this function goes here
 %   Detailed explanation goes here
     
-    try
-        lvm_file = lvm_import(whisker_folder_file);
-    catch
-        disp('parse_whisker_stim_folder_file :: whisker stim file not found!')
-        pause
-    end
+    lvm_file = lvm_import(whisker_folder_file);
     
     segment = lvm_file.Segment1;
     
