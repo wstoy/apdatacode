@@ -25,5 +25,7 @@ function [ protocol triangle pulse ] = parseComment( commentString )
     pulse.pnum = str2double(commentString(indices));
     strfind(commentString, 'PWIDTH:')+7:length(commentString);
     pulse.pwidth = str2double(commentString(indices));
+    
+    
 end
 
