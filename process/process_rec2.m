@@ -32,7 +32,7 @@ function [] = process_rec2(expDirectory, APthreshold)
 
 		fileLoc = [expDirectory '/' file];	
 		
-		recData = parse_whisker_stim_folder_file(fileLoc);
+		[recData] = parse_whisker_stim_folder_file(fileLoc);
 		recData.iterNum = i;
 		
 		% find AP peaks

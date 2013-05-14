@@ -1,4 +1,4 @@
-function [ protocol triangle pulse ] = parseComment( commentString )
+function [ protocol, triangle, pulsetrain, exponential] = parseComment( commentString )
 %parseComment Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -16,16 +16,20 @@ function [ protocol triangle pulse ] = parseComment( commentString )
     triangle.tamplitude = str2double(commentString(indices));
     
     indices = strfind(commentString, 'PAMPLITUDE:')+11:whiteSpaces(7)-1;
-    pulse.pamlitude = str2double(commentString(indices));
+    pulsetrain.pamlitude = str2double(commentString(indices));
     indices = strfind(commentString, 'POFFSET:')+8:whiteSpaces(8)-1;
-    pulse.poffset = str2double(commentString(indices));
+    pulsetrain.poffset = str2double(commentString(indices));
     strfind(commentString, 'PFREQUENCY:')+11:whiteSpaces(9)-1;
-    pulse.pfrequency = str2double(commentString(indices));
-    strfind(commentString, 'PNUM:')+5:whiteSpaces(10)-1;    
-    pulse.pnum = str2double(commentString(indices));
-    strfind(commentString, 'PWIDTH:')+7:length(commentString);
-    pulse.pwidth = str2double(commentString(indices));
+    pulsetrain.pfrequency = str2double(commentString(indices));
+    indices = strfind(commentString, 'PNUM:')+5:whiteSpaces(10)-1;    
+    pulsetrain.pnum = str2double(commentString(indices));
+    indices = strfind(commentString, 'PWIDTH:')+7:whiteSpaces(11)-1;
+    pulsetrain.pwidth = str2double(commentString(indices));
     
+    indices = strfind(commentString, 'EAMPLITUDE:')+11:whiteSpaces(13)-1;
+    exponential.eamlitude = str2double(commentString(indices));
+    indices = strfind(commentString, 'EOFFSET:')+8:length(commentString);
+    exponential.eoffset = str2double(commentString(indices));
     
 end
 

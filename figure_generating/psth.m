@@ -9,6 +9,8 @@
 % responseWindow    : length of response window (starting at stimulus onset)
 % binWidth          : width of bins (s)
 
+
+%% TODO: WRITE QUERY STRUCTURE TO BE COMPATIBLE WITH OTHER STRUCTURES IN THE RECDATA (triangle, exponential, etc)
 function [] = psth(expDirectory, db, fs, sBefore, sAfter, responseWindow, binWidth)
     %check that the database has the proper fields
     if ~isfield(db, {'motorStimOnset'})

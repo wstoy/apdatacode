@@ -1,4 +1,4 @@
-function [ recSegment ] = parse_whisker_stim_folder_file( whisker_folder_file )
+function [ recData ] = parse_whisker_stim_folder_file( whisker_folder_file )
 %parse_whisker_stim_folder_file Summary of this function goes here
 %   Detailed explanation goes here
     
@@ -13,24 +13,34 @@ function [ recSegment ] = parse_whisker_stim_folder_file( whisker_folder_file )
     stim = mean(stim); % mean stimulation amplitude
     
     comment = segment.Comment;
-    [ protocolName, triangle, pulse ] = parseComment( comment );
+    [ protocolName, triangle, pulseTrain, exponential] = parseComment( comment );
     
-    recSegment.v = v;
-    recSegment.sense = sense;
-    recSegment.stim = stim;
-    recSegment.protocolName = protocolName;
+    recData.v = v;
+    recData.sense = sense;
+    recData.stim = stim;
+    recData.protocolName = protocolName;
 
     if strcmp(protocolName, 'triangle')
-        recSegment.triangle = triangle;
-    elseif strcmp(protocolName, 'pulse')
-        recSegment.pulse = pulse;
+        recData.triangle = triangle;
+        recData.pulseTrain = [];
+        recData.exponential = [];
+    elseif strcmp(protocolName, 'pulsetrain')
+        recData.pulseTrain = pulseTrain;
+        recData.triangle = [];
+        recData.exponential = [];
+    elseif strcmp(protocolName, 'exponential')
+        recData.exponential = exponential;
+        recData.pulseTrain = [];
+        recData.triangle = [];
+    else
+        error('parse_whisker_stim_folder error: protocolName not found!')
     end
     
     diffThreshold = 0.1;
     
     % Not done yet - this will define stimOnset and stimOffset
-    recSegment.stimOnsetIndex = find(diff(sense) > .1, 1);
-    recSegment.stimOutsetIndex = find(diff(sense) < .1, 1);
+    recData.stimOnsetIndex = find(diff(sense) > .1, 1);
+    recData.stimOutsetIndex = find(diff(sense) < .1, 1);
     
 end
 
