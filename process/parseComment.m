@@ -16,20 +16,28 @@ function [ protocol, triangle, pulsetrain, exponential] = parseComment( commentS
     triangle.tamplitude = str2double(commentString(indices));
     
     indices = strfind(commentString, 'PAMPLITUDE:')+11:whiteSpaces(7)-1;
-    pulsetrain.pamlitude = str2double(commentString(indices));
+    pulsetrain.pamplitude = str2double(commentString(indices));
     indices = strfind(commentString, 'POFFSET:')+8:whiteSpaces(8)-1;
     pulsetrain.poffset = str2double(commentString(indices));
     strfind(commentString, 'PFREQUENCY:')+11:whiteSpaces(9)-1;
     pulsetrain.pfrequency = str2double(commentString(indices));
-    indices = strfind(commentString, 'PNUM:')+5:whiteSpaces(10)-1;    
+    indices = strfind(commentString, 'PNUM:')+5:whiteSpaces(10)-1;
     pulsetrain.pnum = str2double(commentString(indices));
-    indices = strfind(commentString, 'PWIDTH:')+7:whiteSpaces(11)-1;
+    
+    if length(whiteSpaces) == 10 % experiment where we only have triangle and pulse
+        indices = strfind(commentString, 'PWIDTH:')+7:length(commentString);
+    else
+        indices = strfind(commentString, 'PWIDTH:')+7:whiteSpaces(11)-1;
+    end
+    
     pulsetrain.pwidth = str2double(commentString(indices));
     
-    indices = strfind(commentString, 'EAMPLITUDE:')+11:whiteSpaces(13)-1;
-    exponential.eamlitude = str2double(commentString(indices));
-    indices = strfind(commentString, 'EOFFSET:')+8:length(commentString);
-    exponential.eoffset = str2double(commentString(indices));
-    
+    exponential = [];
+    if length(whiteSpaces) > 10 % experiment where we have exponential too
+        indices = strfind(commentString, 'EAMPLITUDE:')+11:whiteSpaces(13)-1;
+        exponential.eamplitude = str2double(commentString(indices));
+        indices = strfind(commentString, 'EOFFSET:')+8:length(commentString);
+        exponential.eoffset = str2double(commentString(indices));
+    end
 end
 

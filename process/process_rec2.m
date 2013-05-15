@@ -11,16 +11,13 @@
 function [] = process_rec2(expDirectory, APthreshold)
     
 	%loop through the contents of the experimetnal derectory
-	listing = dir([expDirectory '/*.lvm']);
+	folderLoc = [expDirectory '\whisker_stim_folder\'];
+    listing = dir([folderLoc '\*.lvm']);
 	listing = {listing.name};
-	%listing = listing(3:end);
 	
-	%numSamplesPerSegment = 18670;
-	%formatString = '%f64%f64%f64%f64%*q';
-	mkdir([expDirectory '/recSegments']); % make directory for recording files
-	mkdir([expDirectory '/recSegments/raw']);
+	mkdir([expDirectory '\recSegments']); % make directory for recording files
+	mkdir([expDirectory '\recSegments\raw']);
 
-	%fileHeaderLines = 23;
 	decimalPlaces = 3;
 
 	stimDataArray = [];
@@ -30,7 +27,7 @@ function [] = process_rec2(expDirectory, APthreshold)
 		file = listing{i};
 		% import data from the file (1 s)
 
-		fileLoc = [expDirectory '/' file];	
+		fileLoc = [folderLoc '/' file];	
 		
 		[recData] = parse_whisker_stim_folder_file(fileLoc);
 		recData.iterNum = i;

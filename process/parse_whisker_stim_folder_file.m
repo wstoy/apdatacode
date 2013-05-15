@@ -20,20 +20,25 @@ function [ recData ] = parse_whisker_stim_folder_file( whisker_folder_file )
     recData.stim = stim;
     recData.protocolName = protocolName;
 
-    if strcmp(protocolName, 'triangle')
-        recData.triangle = triangle;
-        recData.pulseTrain = [];
-        recData.exponential = [];
-    elseif strcmp(protocolName, 'pulsetrain')
-        recData.pulseTrain = pulseTrain;
-        recData.triangle = [];
-        recData.exponential = [];
-    elseif strcmp(protocolName, 'exponential')
-        recData.exponential = exponential;
-        recData.pulseTrain = [];
-        recData.triangle = [];
-    else
-        error('parse_whisker_stim_folder error: protocolName not found!')
+    switch protocolName
+        case 'triangle'
+            recData.triangle = triangle;
+            recData.pulseTrain = [];
+            recData.exponential = [];
+        case 'pulsetrain'
+            recData.pulseTrain = pulseTrain;
+            recData.triangle = [];
+            recData.exponential = [];
+        case 'exponential'
+            recData.exponential = exponential;
+            recData.pulseTrain = [];
+            recData.triangle = [];
+        case 'none'
+            recData.exponential = [];
+            recData.pulseTrain = [];
+            recData.triangle = [];
+        otherwise
+            error('parse_whisker_stim_folder error: protocolName not found!')
     end
     
     diffThreshold = 0.1;
