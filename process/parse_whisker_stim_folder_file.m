@@ -15,6 +15,10 @@ function [ recData ] = parse_whisker_stim_folder_file( whisker_folder_file )
     comment = segment.Comment;
     [ protocolName, triangle, pulseTrain, exponential] = parseComment( comment );
     
+    recData = struct('tslope', [], 'toffset', [], 'tamplitude', [],...     % triangle
+        'pamplitude', [], 'poffset', [], 'pfrequency', [], 'pnum', [], ... % pulse train
+        'eamplitude', [], 'eoffset', []);                                  % exponential
+
     recData.v = v;
     recData.sense = sense;
     recData.stim = stim;
@@ -22,17 +26,17 @@ function [ recData ] = parse_whisker_stim_folder_file( whisker_folder_file )
 
     switch protocolName
         case 'triangle'
-            recData.triangle = triangle;
-            recData.pulseTrain = [];
-            recData.exponential = [];
+            recData.tamplitude = triangle.tamplitude;
+            recData.tslope = triangle.tslope;
+            recData.toffset = triangle.toffset;
         case 'pulsetrain'
-            recData.pulseTrain = pulseTrain;
-            recData.triangle = [];
-            recData.exponential = [];
+            recData.pamplitude = pulseTrain.pamplitude;
+            recData.poffset = pulseTrain.poffset;
+            recData.pfrequency = pulseTrain.pfrequency;
+            recData.pnum = pulseTrain.pnum;
         case 'exponential'
-            recData.exponential = exponential;
-            recData.pulseTrain = [];
-            recData.triangle = [];
+            recData.eamplitude = exponential.eamplitude;
+            recData.eoffset = exponential.eoffset;
         case 'none'
             recData.exponential = [];
             recData.pulseTrain = [];

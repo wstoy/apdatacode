@@ -12,7 +12,7 @@ samplingRate = 20000;
 
     mkdir([expDirectory 'recSegments']) % make directory for recording files
     folderLoc = [expDirectory 'whisker_stim_folder\'];
-    	    
+
     iterNum = startAt;
 	command = '';
     
@@ -68,6 +68,12 @@ samplingRate = 20000;
 					break;
                 case 'save'
                     saveRecSegment2(expDirectory, recData, iterNum)
+                    break;
+                case 'goto'
+                    gotoNum = input('Segment # : ');
+                    iterNum = gotoNum - 1; % since iterNum will be incremented by 1 at the end
+                    close
+                    break;
 				% more commands can be added here
 				otherwise
 					disp('next');
