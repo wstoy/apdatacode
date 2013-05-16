@@ -38,9 +38,7 @@ function [ recData ] = parse_whisker_stim_folder_file( whisker_folder_file )
             recData.eamplitude = exponential.eamplitude;
             recData.eoffset = exponential.eoffset;
         case 'none'
-            recData.exponential = [];
-            recData.pulseTrain = [];
-            recData.triangle = [];
+           
         otherwise
             error('parse_whisker_stim_folder error: protocolName not found!')
     end
