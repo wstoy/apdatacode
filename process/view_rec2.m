@@ -5,19 +5,20 @@
 %         startAt: iteration number
 
 function [] = view_rec2(expDirectory, startAt, sigYLims, stimYLims)
-    
+    %% INITIALIZE
+	close all;
+	f = figure;
 
-%% CONSTANTS
-samplingRate = 20000;
+	%% CONSTANTS
+	samplingRate = 20000;
 
     mkdir([expDirectory 'recSegments']) % make directory for recording files
-    folderLoc = [expDirectory 'whisker_stim_folder\'];
+    folderLoc = [expDirectory 'whisker_stim_folder/'];
 
     iterNum = startAt;
 	command = '';
     
 	while ~strcmp(command, 'stop')
-		
 		disp(['File # ' int2str(iterNum)])
 		
         if iterNum == 0
@@ -36,17 +37,17 @@ samplingRate = 20000;
 		
 		plotXLim = [0 length(recData.v)];
 		
-        f = figure('name',['Segment' iterString]);
+        set(gcf,'name',['Segment' iterString]);
 		subplot(2,1,1);
 		plot(t,recData.v); % in mV
 		title(['I_{inj} = ' num2str(recData.stim) 'pA']);
 		ylabel('V_m (mV)');
 		if ~strcmp(recData.protocolName, 'none')
             hold on
-			disp(recData.stimOnsetIndex);
 			plot(recData.stimOnsetIndex/20000*[1,1],...
 				sigYLims,'r'); %plot stim onset line in red
-        end
+		end
+		hold off;
         
 		ylim(sigYLims);
 
@@ -54,7 +55,6 @@ samplingRate = 20000;
 		plot(t,recData.sense);
 		xlabel('Time (s)');
 		ylim(stimYLims);
-		hold off;
 		
 		% Accept commands from the user
 		while true

@@ -11,12 +11,12 @@
 function [] = process_rec2(expDirectory, APthreshold)
     
 	%loop through the contents of the experimetnal derectory
-	folderLoc = [expDirectory '\whisker_stim_folder\'];
-    listing = dir([folderLoc '\*.lvm']);
+	folderLoc = [expDirectory '/whisker_stim_folder/'];
+    listing = dir([folderLoc '/*.lvm']);
 	listing = {listing.name};
 	
-	mkdir([expDirectory '\recSegments']); % make directory for recording files
-	mkdir([expDirectory '\recSegments\raw']);
+	mkdir([expDirectory '/recSegments']); % make directory for recording files
+	mkdir([expDirectory '/recSegments/raw']);
 
 	decimalPlaces = 3;
 

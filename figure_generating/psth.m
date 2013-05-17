@@ -12,14 +12,14 @@
 
 function [] = psth(expDirectory, db, fs, sBefore, sAfter, responseWindow, binWidth)
     %check that the database has the proper fields
-    if ~isfield(db, {'motorStimOnset'})
-        error('psth:MissingFields','The database is missing some fields');
-	end
+%     if ~isfield(db, {'motorStimOnset'})
+%         error('psth:MissingFields','The database is missing some fields');
+% 	end
     
-    tAfter = sAfter/fs;     % (s)
-    tBefore = sBefore/fs;   % (s)
-    responseWindow = responseWindow/fs; % (s)
-    binWidth = binWidth/fs; % (s)
+    tAfter = sAfter/fs*1000;     % (ms)
+    tBefore = sBefore/fs*1000;   % (ms)
+    responseWindow = responseWindow/fs*1000; % (ms)
+    binWidth = binWidth/fs*1000; % (ms)
     
     % LOOK AND FEEL
     boxcolor = [0.8,0.8,0.8];
@@ -35,7 +35,7 @@ function [] = psth(expDirectory, db, fs, sBefore, sAfter, responseWindow, binWid
 	AllAPtimes = [];
     
     %loop through trials and display the points
-    for i = 1:length(db)
+    for i = 1:length(db)-1
 		%get the AP indicies
 		iterNum = db(i).iterNum;
 		
@@ -47,9 +47,11 @@ function [] = psth(expDirectory, db, fs, sBefore, sAfter, responseWindow, binWid
 		%convert AP indicies to AP times
 		normAPindices = [];
 		if ~isempty(APindices)
-			normAPindices = APindices - db(i).motorStimOnset;
+			d = diff(db(i).sense);
+			stimOnset = find(max(d) == d);
+			normAPindices = APindices - stimOnset;
 		end
-        normAPtimes = normAPindices./fs;
+        normAPtimes = normAPindices./fs*1000;
         APtimes = normAPtimes(normAPtimes > -tBefore & normAPtimes < tAfter);
         
         yvals = (i-1)*ones(length(APtimes),1);
@@ -89,6 +91,6 @@ function [] = psth(expDirectory, db, fs, sBefore, sAfter, responseWindow, binWid
 	h = findobj(gca,'Type','patch');
 	set(h,'FaceColor','k','EdgeColor','k')
     xlim([-tBefore, tAfter]);
-    xlabel('Time from stimulus onset (s)');
+    xlabel('Time from stimulus onset (ms)');
     ylabel('Binned Responses');
 end

@@ -36,7 +36,7 @@ function [queryResults] = query_structure_array(structureArray,conditionals)
 			error('query_structure_array:badKey',...
 				['Bad Key: ' key ' is not a key of the structures in structureArray.\n' ...
 				' keys are: ' implode(fieldnames(structureArray), ', ')]);
-		elseif ~isempty(str2double(value))
+		elseif ~isnan(str2double(value))
 			value = str2double(value);
 			switch equality
 				case '>'
@@ -54,7 +54,7 @@ function [queryResults] = query_structure_array(structureArray,conditionals)
 		else
 			%doesn't matter what the equality statement is if the value is
 			%a string
-        	queryResults = queryResults(strcmp(values(i),{queryResults.(key)}));
+        	queryResults = queryResults(strcmp(value,{queryResults.(key)}));
 		end
         
         if isempty(queryResults)

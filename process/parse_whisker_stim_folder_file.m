@@ -2,7 +2,7 @@ function [ recData ] = parse_whisker_stim_folder_file( whisker_folder_file )
 %parse_whisker_stim_folder_file Summary of this function goes here
 %   Detailed explanation goes here
     
-    lvm_file = lvm_import(whisker_folder_file);
+    lvm_file = lvm_import(whisker_folder_file,0);
     
     segment = lvm_file.Segment1;
     
