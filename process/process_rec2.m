@@ -40,7 +40,7 @@ function [] = process_rec2(expDirectory, APthreshold)
 
 		% remove the t and v fields
 		stimSegment = recData;
-		stimSegment = rmfield(stimSegment,{'v'});f
+		stimSegment = rmfield(stimSegment,{'v'});
 
 		% create an array of stimSegment structures
 		stimDataArray = [stimDataArray, stimSegment];
