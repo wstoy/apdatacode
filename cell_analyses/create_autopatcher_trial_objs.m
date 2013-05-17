@@ -12,7 +12,7 @@
 clear all
 close all
 folderLocation = '..\Out';
-expFolderName = '2013-05-12 in vivo';
+expFolderName = '2013-05-16 in vivo';
 folder_prefix = 'experiment';
 
 expDirectory = [folderLocation '\' expFolderName '\'];

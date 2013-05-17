@@ -3,64 +3,116 @@ function [  ] = cell_characteristics(  )
 %   Finds all_recorded_trials.mat file in folder 'combinedAnalysis'.
 %%
 
+% 0: all plots on the same figure
+% 1: all plots on separate figures
+sameFigure = 0; 
+
+close all
+
 load('..\combinedAnalysis\all_recorded_trials.mat')
 
-allDepths = [all_recorded_trials.finalDepth];
-allRa = [all_recorded_trials.Ra];
-allRm = [all_recorded_trials.Rm];
-allCm = [all_recorded_trials.Cm];
-allIh = [all_recorded_trials.Ih];
-allMaxR = [all_recorded_trials.maxR];
-allRMP = [all_recorded_trials.RMP];
-allHoldingTime = [all_recorded_trials.holding_time];
-allRin = [all_recorded_trials.Rin];
+% holding time > 5 minutes
+LongTrials = all_recorded_trials([all_recorded_trials.holding_time] > 5*60);
+LongAndRealTrials = LongTrials([imag([LongTrials.Ra]) == 0 & ~isnan([LongTrials.Ra])]);
 
-figure
+allDepths = [LongAndRealTrials.finalDepth];
+allRa = [LongAndRealTrials.Ra];
+allRm = [LongAndRealTrials.Rm];
+allCm = [LongAndRealTrials.Cm];
+allIh = [LongAndRealTrials.Ih];
+allMaxR = [LongAndRealTrials.maxR];
+allRMP = [LongAndRealTrials.RMP];
+allHoldingTime = [LongAndRealTrials.holding_time];
+allRin = [LongAndRealTrials.Rin];
+
+%% Ra
+if sameFigure
+    figure
+    xlabel('Depth (\mum)', 'fontsize', 12)
+else
+    subplot(4,2,2)
+end
 plot(allDepths, allRa*1e-6, 'o', 'linewidth', 2)
 title('Access resistance (Ra)', 'fontsize' ,12)
-xlabel('Depth (\mum)', 'fontsize', 12)
 ylabel('R (M\Omega)', 'fontsize', 12)
 
-figure
+%% Rm
+if sameFigure
+    figure
+    xlabel('Depth (\mum)', 'fontsize', 12)
+else
+    subplot(4,2,4)
+end
 plot(allDepths, allRm*1e-6, 'o', 'linewidth', 2)
 title('Membrane resistance (Rm)', 'fontsize' ,12)
-xlabel('Depth (\mum)', 'fontsize', 12)
 ylabel('R (M\Omega)', 'fontsize', 12)
 
-figure
+%% Cm
+if sameFigure
+    figure
+    xlabel('Depth (\mum)', 'fontsize', 12)
+else
+    subplot(4,2,6)
+end
 plot(allDepths, allCm*1e12, 'o', 'linewidth', 2)
 title('Membrane capacitance (Cm)', 'fontsize' ,12)
-xlabel('Depth (\mum)', 'fontsize', 12)
 ylabel('C_m (pF)', 'fontsize', 12)
 
-figure
-plot(allDepths, allIh, 'o', 'linewidth', 2)
-title('Holding current (pA)', 'fontsize' ,12)
-xlabel('Depth (\mum)', 'fontsize', 12)
-ylabel('I_h (pA)', 'fontsize', 12)
-
-figure
-plot(allDepths, allMaxR, 'o', 'linewidth', 2)
-title('Gigasealing resistance', 'fontsize' ,12)
-xlabel('Depth (\mum)', 'fontsize', 12)
-ylabel('R (M\Omega)', 'fontsize', 12)
-
-figure
-plot(allDepths, allRMP, 'o', 'linewidth', 2)
-title('Resting potential', 'fontsize' ,12)
-xlabel('Depth (\mum)', 'fontsize', 12)
-ylabel('RMP (mV)', 'fontsize', 12)
-
-figure
+%% Rin
+if sameFigure
+    figure
+else
+    subplot(4,2,8)
+end
 plot(allDepths, allRin*1e-6, 'o', 'linewidth', 2)
 title('Input Resistance', 'fontsize' ,12)
 xlabel('Depth (\mum)', 'fontsize', 12)
 ylabel('R (M\Omega)', 'fontsize', 12)
 
-figure
+%% Iholding
+if sameFigure
+    figure
+    xlabel('Depth (\mum)', 'fontsize', 12)
+else
+    subplot(4,2,1)
+end
+plot(allDepths, allIh, 'o', 'linewidth', 2)
+title('Holding current (pA)', 'fontsize' ,12)
+ylabel('I_h (pA)', 'fontsize', 12)
+
+%% Max R
+if sameFigure
+    figure
+    xlabel('Depth (\mum)', 'fontsize', 12)
+else
+    subplot(4,2,3)
+end
+plot(allDepths, allMaxR/1000, 'o', 'linewidth', 2) % Gigaohms
+title('Gigasealing resistance', 'fontsize' ,12)
+ylabel('R (G\Omega)', 'fontsize', 12)
+
+
+%% RMP
+if sameFigure
+    figure
+    xlabel('Depth (\mum)', 'fontsize', 12)
+else
+    subplot(4,2,5)
+end
+plot(allDepths, allRMP, 'o', 'linewidth', 2)
+title('Resting potential', 'fontsize' ,12)
+ylabel('RMP (mV)', 'fontsize', 12)
+
+
+%% Holding time
+if sameFigure
+    figure
+else
+    subplot(4,2,7)
+end
 plot(allDepths, allHoldingTime/60, 'o', 'linewidth', 2) % holding time in minutes
 title('Holding Time', 'fontsize' ,12)
-xlabel('Depth (\mum)', 'fontsize', 12)
 ylabel('Holding time (min)', 'fontsize', 12)
+xlabel('Depth (\mum)', 'fontsize', 12)
 end
 
