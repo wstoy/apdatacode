@@ -47,9 +47,7 @@ function [] = psth(expDirectory, db, fs, sBefore, sAfter, responseWindow, binWid
 		%convert AP indicies to AP times
 		normAPindices = [];
 		if ~isempty(APindices)
-			d = diff(db(i).sense);
-			stimOnset = find(max(d) == d);
-			normAPindices = APindices - stimOnset;
+			normAPindices = APindices - recData.stimOnsetIndex;
 		end
         normAPtimes = normAPindices./fs*1000;
         APtimes = normAPtimes(normAPtimes > -tBefore & normAPtimes < tAfter);
